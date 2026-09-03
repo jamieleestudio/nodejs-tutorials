@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-tutorials-testing",
+  "version": "0.1.0",
+  "description": "Independent Node.js testing learning project.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/main.ts",
+    "test": "vitest run",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

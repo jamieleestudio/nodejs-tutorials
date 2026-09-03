@@ -1,0 +1,28 @@
+{
+  "name": "nodejs-tutorials",
+  "version": "0.1.0",
+  "description": "Modular, hands-on Node.js + TypeScript tutorials for backend development.",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "basics",
+    "core-api",
+    "async",
+    "oop",
+    "web",
+    "database",
+    "auth",
+    "testing",
+    "architecture",
+    "docker",
+    "ai"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "typecheck": "npm run typecheck --workspaces",
+    "test": "npm run test --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

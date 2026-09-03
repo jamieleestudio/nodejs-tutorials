@@ -1,0 +1,20 @@
+{
+  "name": "nodejs-tutorials-web",
+  "version": "0.1.0",
+  "description": "Independent Node.js HTTP server and web framework learning project.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/main.ts",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

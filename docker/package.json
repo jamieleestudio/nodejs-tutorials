@@ -1,0 +1,17 @@
+{
+  "name": "nodejs-tutorials-docker",
+  "version": "0.1.0",
+  "description": "Independent Node.js Docker containerization learning project.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/main.ts",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

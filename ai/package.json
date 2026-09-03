@@ -1,0 +1,23 @@
+{
+  "name": "nodejs-tutorials-ai",
+  "version": "0.1.0",
+  "description": "Independent Node.js AI integration learning project.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/main.ts",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "openai": "^4.67.0",
+    "langchain": "^1.5.10",
+    "@langchain/core": "^1.2.9",
+    "@langchain/openai": "^1.5.11",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
