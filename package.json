@@ -18,7 +18,16 @@
     "architecture/distributed",
     "architecture/microservice",
     "docker",
-    "ai"
+    "ai",
+    "ai/mastra/mastra-basics/*",
+    "ai/mastra/mastra-tools/*",
+    "ai/mastra/mastra-memory/*",
+    "ai/mastra/mastra-rag/*",
+    "ai/mastra/mastra-workflows/*",
+    "ai/mastra/mastra-mcp/*",
+    "ai/mastra/mastra-evals/*",
+    "ai/mastra/mastra-patterns/*",
+    "ai/mastra/mastra-capstone/*"
   ],
   "scripts": {
     "build": "npm run build --workspaces",
