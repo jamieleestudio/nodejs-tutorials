@@ -1,22 +1,13 @@
-# ② 工具（8601）
+# ② 工具（mastra-tools）
 
 ## 这一章解决什么
 
-工具与委派。
+createTool（Zod schema）+ 子 Agent 委派 + 敏感工具人工审批（requireApproval）。
 
-## 模块清单（src/demos/ 下的演示脚本）
+## 模块清单
 
-| 演示 | 内容 |
-|---|---|
-| [src/demos/tools-basics.ts](./src/demos/tools-basics.ts) | 工具调用：createTool + Zod schema（weatherTool + calculatorTool） |
-| [src/demos/subagents.ts](./src/demos/subagents.ts) | 子 Agent 委派：构造器 agents 选项（Agent-as-Tool） |
-| [src/demos/tool-approval.ts](./src/demos/tool-approval.ts) | 工具审批 HITL：requireApproval 挂起 + approveToolCallGenerate 恢复 |
-
-## 运行
-
-```bash
-cd ai/mastra/mastra-tools
-cp .env.example .env   # 填入 DEEPSEEK_API_KEY
-npx tsx src/demos/<demo>.ts
-npx mastra dev         # 或启动本分类 dev server + Studio（端口见标题）
-```
+| 模块 | 端口 | 主题 | 运行 |
+|---|---|---|---|
+| [mastra-tools-basics](./mastra-tools-basics/README.md) | 8604 | createTool 工具调用 | `npx tsx src/demo.ts` |
+| [mastra-subagents](./mastra-subagents/README.md) | 8605 | 子 Agent 委派 | `npx tsx src/demo.ts` |
+| [mastra-tool-approval](./mastra-tool-approval/README.md) | 8606 | 工具审批 HITL | `npx tsx src/demo.ts` |

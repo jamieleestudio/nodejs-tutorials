@@ -1,0 +1,25 @@
+{
+  "name": "nodejs-tutorials-ai-mastra-workflow-error",
+  "version": "0.1.0",
+  "description": "Mastra tutorial: 错误处理：step 内捕获 + fallback 路径",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "mastra dev",
+    "demo": "tsx src/demo.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mastra/core": "^1.67.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "mastra": "^1.30.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "@types/node": "^24.0.0"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  }
+}

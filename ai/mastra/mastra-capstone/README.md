@@ -1,22 +1,11 @@
-# ⑨ 综合（8608）
+# ⑨ 综合（mastra-capstone）
 
 ## 这一章解决什么
 
-端到端综合。
-> 需要额外环境变量：DASHSCOPE_API_KEY（嵌入，见 .env.example）。
+端到端智能客服：RAG 知识库 + 订单工具 + 会话记忆 + 退款人工审批。
 
-## 模块清单（src/demos/ 下的演示脚本）
+## 模块清单
 
-| 演示 | 内容 |
-|---|---|
-| [src/demos/c.ts](./src/demos/c.ts) | a |
-| [src/demos/端.ts](./src/demos/端.ts) | 到 |
-
-## 运行
-
-```bash
-cd ai/mastra/mastra-capstone
-cp .env.example .env   # 填入 DEEPSEEK_API_KEY
-npx tsx src/demos/<demo>.ts
-npx mastra dev         # 或启动本分类 dev server + Studio（端口见标题）
-```
+| 模块 | 端口 | 主题 | 运行 |
+|---|---|---|---|
+| [mastra-capstone-app](./mastra-capstone-app/README.md) | 8625 | 智能客服 Agent | `npx tsx src/demo.ts` |

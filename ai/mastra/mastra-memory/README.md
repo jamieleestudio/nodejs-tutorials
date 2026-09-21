@@ -1,23 +1,13 @@
-# ③ 记忆（8602）
+# ③ 记忆（mastra-memory）
 
 ## 这一章解决什么
 
-三层记忆。
-> 需要额外环境变量：DASHSCOPE_API_KEY（嵌入，见 .env.example）。
+三层记忆：消息历史（lastMessages）、工作记忆（resource 级用户档案）、语义召回（向量检索历史）。
 
-## 模块清单（src/demos/ 下的演示脚本）
+## 模块清单
 
-| 演示 | 内容 |
-|---|---|
-| [src/demos/memory-working.ts](./src/demos/memory-working.ts) | 工作记忆：resource 级用户档案，跨 thread 生效 |
-| [src/demos/memory-recall.ts](./src/demos/memory-recall.ts) | 语义召回：semanticRecall + 嵌入（DashScope 兼容端点） |
-| [src/demos/memory-persistence.ts](./src/demos/memory-persistence.ts) | 记忆持久化：LibSQLStore file 落盘（write/read 两进程演示） |
-
-## 运行
-
-```bash
-cd ai/mastra/mastra-memory
-cp .env.example .env   # 填入 DEEPSEEK_API_KEY
-npx tsx src/demos/<demo>.ts
-npx mastra dev         # 或启动本分类 dev server + Studio（端口见标题）
-```
+| 模块 | 端口 | 主题 | 运行 |
+|---|---|---|---|
+| [mastra-memory-working](./mastra-memory-working/README.md) | 8607 | 工作记忆 | `npx tsx src/demo.ts` |
+| [mastra-memory-recall](./mastra-memory-recall/README.md) | 8608 | 语义召回（需嵌入端点） | `npx tsx src/demo.ts` |
+| [mastra-memory-persistence](./mastra-memory-persistence/README.md) | 8609 | 持久化（LibSQL 文件） | `npx tsx src/demo.ts write / read` |
