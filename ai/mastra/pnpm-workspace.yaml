@@ -1,0 +1,10 @@
+packages:
+  - 'mastra-basics/*'
+  - 'mastra-tools/*'
+  - 'mastra-memory/*'
+  - 'mastra-rag/*'
+  - 'mastra-workflows/*'
+  - 'mastra-mcp/*'
+  - 'mastra-evals/*'
+  - 'mastra-patterns/*'
+  - 'mastra-capstone/*'

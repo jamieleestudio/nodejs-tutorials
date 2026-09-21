@@ -9,28 +9,24 @@ Agent、工具、工作流（Workflows）、记忆、RAG、MCP 与编排模式�
 
 ## 运行方式
 
-Mastra 组通过**根 package.json 的 npm workspaces 聚合**（等价 Java 侧的 Maven 聚合 pom）：
-每个叶子模块是独立 npm 包（自含 package.json 与端口），根目录一条命令即可解析/构建/运行全部。
+通过 **pnpm workspace 聚合**（`pnpm-workspace.yaml` 覆盖全部 26 个模块；pnpm 的全局
+内容寻址仓库等价 Maven 的 `~/.m2`，26 个模块共享一份物理依赖，每模块 node_modules
+只是符号链接）。npm 11 对嵌套 workspace 的 reify 有缺陷，故本组用 pnpm 管理。
 
 ```bash
-# 【等价 mvn package】根目录解析全仓依赖（26 个模块一次装齐）
-npm install
-
-# 【等价 mvn compile】全量类型检查
-npm run typecheck --workspaces --if-present
+# 【等价 mvn package】一次安装全部 26 个模块（在 ai/mastra 下执行）
+cd ai/mastra
+pnpm install
 
 # 【等价 mvn -pl :module】单模块运行
-npm run demo -w nodejs-tutorials-ai-mastra-chat       # 程序化演示
-npm run dev  -w nodejs-tutorials-ai-mastra-chat       # dev server + Studio（端口见模块）
+pnpm --filter nodejs-tutorials-ai-mastra-chat demo      # 程序化演示
+pnpm --filter nodejs-tutorials-ai-mastra-chat dev       # dev server + Studio（端口 8600）
 
-# 也可以进入模块目录独立运行（效果相同）
+# 也可以进入模块目录直接执行（pnpm 自动定位 workspace）
 cd ai/mastra/mastra-basics/mastra-chat
 cp .env.example .env        # 填入 DEEPSEEK_API_KEY
 npx mastra dev
 ```
-
-`mastra dev` 会同时提供 **Studio 调试界面**（浏览器打开模块端口）与 **HTTP API**
-（`POST /api/agents/{agentId}/generate` 等），README 端口表中标注了各模块端口。
 
 ### Maven ↔ npm 对照
 

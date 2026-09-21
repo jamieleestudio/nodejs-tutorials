@@ -6,7 +6,7 @@ MCP 服务端：MCPServer 暴露 Mastra 工具与 Agent。
 
 ```bash
 cd ai/mastra/mastra-mcp/mastra-mcp-server
-npm install
+pnpm install
 cp .env.example .env   # 填入 DEEPSEEK_API_KEY
 npx tsx src/demo.ts    # 程序化演示
 npx mastra dev         # 或启动 dev server + Studio
