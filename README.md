@@ -16,7 +16,7 @@ Each top-level folder is its own project with its own `package.json`, `tsconfig.
 - `testing/`: testing — Vitest, unit and integration tests
 - `architecture/`: architecture patterns — monolith, microservice, distributed
 - `docker/`: containerization — Dockerfile, docker-compose
-- `ai/`: AI integration — OpenAI SDK, LangChain, [Mastra](./ai/mastra/README.md) (26 modules: agents, tools, workflows, memory, RAG, MCP, evals, patterns)
+- `ai/`: AI integration — OpenAI SDK, [Mastra](./ai/mastra/README.md) (26 modules), [LangChain.js](./ai/langchainjs/README.md) (27 demos: agents, tools, workflows/LangGraph, memory, RAG, MCP, patterns), LangChain demos
 
 ## Quick Start
 

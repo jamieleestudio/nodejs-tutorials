@@ -1,0 +1,11 @@
+packages:
+  - shared
+  - 'langchainjs-basics/*'
+  - 'langchainjs-agents/*'
+  - 'langchainjs-memory/*'
+  - 'langchainjs-rag/*'
+  - 'langchainjs-guardrails/*'
+  - 'langchainjs-workflows/*'
+  - 'langchainjs-mcp/*'
+  - 'langchainjs-patterns/*'
+  - 'langchainjs-capstone/*'

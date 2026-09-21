@@ -1,0 +1,24 @@
+{
+  "name": "langchainjs-pattern-parallel",
+  "version": "0.1.0",
+  "description": "LangChain.js patterns: pattern-parallel",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "demo": "tsx src/demo.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "langchain": "^1.5.11",
+    "@langchain/core": "^1.2.12",
+    "@langchain/openai": "^1.5.13",
+    "zod": "^4.6.5",
+    "langchainjs-shared": "workspace:*",
+    "@langchain/langgraph-supervisor": "^1.1.2"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "@types/node": "^24.0.0"
+  }
+}
