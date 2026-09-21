@@ -1,12 +1,21 @@
-# ⑥ MCP（mastra-mcp）
+# ⑥ MCP（8605）
 
 ## 这一章解决什么
 
-MCPServer 把 Mastra 工具/Agent 暴露为标准 MCP 服务；MCPClient 发现并调用远程工具。
+MCP 双端。
 
-## 模块清单
+## 模块清单（src/demos/ 下的演示脚本）
 
-| 模块 | 端口 | 主题 | 运行 |
-|---|---|---|---|
-| [mastra-mcp-server](./mastra-mcp-server/README.md) | 8618 | MCP 服务端 | `npx mastra dev` |
-| [mastra-mcp-client](./mastra-mcp-client/README.md) | 8619 | MCP 客户端 | `npx tsx src/demo.ts` |
+| 演示 | 内容 |
+|---|---|
+| [src/demos/mcp-server.ts](./src/demos/mcp-server.ts) | MCP 服务端：MCPServer 暴露工具与 Agent（先启动 npx mastra dev） |
+| [src/demos/mcp-client.ts](./src/demos/mcp-client.ts) | MCP 客户端：MCPClient 连 8605 的 MCP 端点 + listToolsets |
+
+## 运行
+
+```bash
+cd ai/mastra/mastra-mcp
+cp .env.example .env   # 填入 DEEPSEEK_API_KEY
+npx tsx src/demos/<demo>.ts
+npx mastra dev         # 或启动本分类 dev server + Studio（端口见标题）
+```
