@@ -11,9 +11,6 @@
   },
   "dependencies": {
     "openai": "^4.67.0",
-    "langchain": "^1.5.10",
-    "@langchain/core": "^1.2.9",
-    "@langchain/openai": "^1.5.11",
     "zod": "^3.23.0"
   },
   "devDependencies": {

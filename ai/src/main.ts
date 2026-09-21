@@ -1,5 +1,4 @@
 import { run as openaiRun, DESCRIPTION as openaiDesc } from "./openai-demo.js";
-import { DEMOS as langchainDemos } from "./langchain/index.js";
 
 type Demo = {
   description: string;
@@ -8,7 +7,6 @@ type Demo = {
 
 const DEMOS: Record<string, Demo> = {
   openai: { description: openaiDesc, run: openaiRun },
-  ...langchainDemos,
 };
 
 async function main(): Promise<void> {
