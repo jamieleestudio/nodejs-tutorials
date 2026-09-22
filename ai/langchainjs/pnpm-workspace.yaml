@@ -9,3 +9,4 @@ packages:
   - 'langchainjs-mcp/*'
   - 'langchainjs-patterns/*'
   - 'langchainjs-capstone/*'
+  - 'langchainjs-context/*'

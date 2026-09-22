@@ -39,7 +39,7 @@ pnpm --filter langchainjs-chat-models demo
 | 记忆 | InMemoryChatMessageHistory + thread | ChatMemory + memoryId |
 | MCP | `@langchain/mcp-adapters` | `langchain4j-mcp` |
 
-## 分类与模块（27 个 demo / 9 分类 + shared，全部编译通过，核心链路已运行验证）
+## 分类与模块（31 个 demo / 10 分类 + shared，全部编译通过，核心链路已运行验证）
 
 ### ① [basics](langchainjs-basics/README.md) — 5 个 demo
 
@@ -106,6 +106,15 @@ pnpm --filter langchainjs-chat-models demo
 | 模块 | 主题 |
 |---|---|
 | [capstone-app](langchainjs-capstone/capstone-app/README.md) | 智能客服综合（FAQ + 订单工具 + agent） |
+
+### ⑨ [context ★](langchainjs-context/README.md) — 4 个 demo
+
+| 模块 | 主题 |
+|---|---|
+| [context-config](langchainjs-context/context-config/README.md) | configurable 透传用户身份到工具 |
+| [context-factory](langchainjs-context/context-factory/README.md) | 工厂闭包按请求构建带身份工具 |
+| [context-rbac](langchainjs-context/context-rbac/README.md) | wrapToolCall RBAC 工具权限拦截 |
+| [context-langgraph](langchainjs-context/context-langgraph/README.md) | LangGraph 节点读 configurable |
 
 ## 环境变量
 
