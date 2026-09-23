@@ -1,0 +1,28 @@
+/** User 领域（模块内自包含） */
+import { Entity, DomainError } from "@erp/shared-kernel";
+
+export class User extends Entity<string> {
+  private constructor(
+    readonly email: string,
+    readonly name: string,
+    id: string,
+  ) {
+    super(id);
+  }
+
+  static create(params: { email: string; name: string }): User {
+    if (!params.name.trim()) throw new DomainError("User name cannot be empty");
+    return new User(params.email.trim().toLowerCase(), params.name.trim(), crypto.randomUUID());
+  }
+
+  static fromRow(row: { id: string; email: string; name: string }): User {
+    return new User(row.email, row.name, row.id);
+  }
+}
+
+export const USER_REPOSITORY = Symbol("USER_REPOSITORY");
+
+export interface UserRepository {
+  save(user: User): Promise<void>;
+  findById(id: string): Promise<User | null>;
+}

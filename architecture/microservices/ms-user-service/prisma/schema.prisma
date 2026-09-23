@@ -1,0 +1,20 @@
+// Prisma schema for @ms/user-service — User service owns its own database
+// Run: pnpm --filter @ms/user-service prisma:migrate
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL_MS_USER")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

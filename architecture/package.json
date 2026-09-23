@@ -1,39 +1,30 @@
 {
   "name": "nodejs-tutorials-architecture",
-  "version": "0.1.0",
-  "description": "NestJS + DDD + Clean Architecture learning projects.",
+  "version": "0.2.0",
+  "description": "Architecture patterns with NestJS + DDD + Clean Architecture — pnpm + Turborepo workspace (7 patterns, mirroring java-tutorials/architecture).",
   "private": true,
-  "workspaces": [
-    "monolith",
-    "modular-monolith",
-    "distributed",
-    "microservice"
-  ],
-  "scripts": {
-    "start:monolith": "npm start -w monolith",
-    "start:modular-monolith": "npm start -w modular-monolith",
-    "start:distributed": "npm start -w distributed",
-    "start:microservice": "npm start -w microservice",
-    "typecheck": "npm run typecheck --workspaces",
-    "prisma:generate": "npm run prisma:generate --workspaces",
-    "prisma:migrate": "npm run prisma:migrate --workspaces"
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=20"
   },
-  "dependencies": {
-    "@nestjs/common": "^12.0.1",
-    "@nestjs/core": "^12.0.1",
-    "@nestjs/platform-express": "^12.0.1",
-    "@nestjs/microservices": "^12.0.1",
-    "@nestjs/cqrs": "^12.0.0",
-    "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.2",
-    "class-validator": "^0.15.1",
-    "class-transformer": "^0.5.1",
-    "@prisma/client": "^5.22.0"
+  "scripts": {
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "start:monolithic": "turbo run start --filter=@arch/monolithic",
+    "start:mmm": "turbo run start --filter=@mmm/bootstrap",
+    "start:dist": "turbo run start --filter=@dist/master",
+    "start:ms": "turbo run start --filter=@ms/demo",
+    "start:eda": "turbo run start --filter=@eda/demo",
+    "start:erp": "turbo run start --filter=@erp/app",
+    "prisma:generate": "turbo run prisma:generate",
+    "docker:up": "docker compose up -d"
   },
   "devDependencies": {
+    "@types/node": "^22.10.0",
+    "dotenv-cli": "^8.0.0",
     "tsx": "^4.19.0",
-    "typescript": "^5.6.0",
-    "prisma": "^5.22.0",
-    "@types/node": "^22.0.0"
+    "turbo": "^2.4.0",
+    "typescript": "^5.6.0"
   }
 }

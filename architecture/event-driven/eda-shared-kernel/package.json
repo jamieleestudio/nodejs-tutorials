@@ -1,0 +1,17 @@
+{
+  "name": "@eda/shared-kernel",
+  "version": "0.2.0",
+  "description": "Event-driven — shared kernel: event topics + envelope contracts. Zero framework dependencies.",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}

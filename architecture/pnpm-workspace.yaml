@@ -1,0 +1,8 @@
+packages:
+  - monolithic
+  - monolithic-multi-module/*
+  - distributed/*
+  - event-driven/*
+  - microservices/*
+  - cloud-native/*
+  - erp/*

@@ -1,0 +1,17 @@
+{
+  "name": "@mmm/shared-kernel",
+  "version": "0.2.0",
+  "description": "Monolithic multi-module — shared kernel: pure TS domain primitives + cross-module integration event contracts. Zero framework dependencies.",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}

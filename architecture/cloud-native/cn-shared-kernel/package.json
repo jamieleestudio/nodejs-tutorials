@@ -1,0 +1,17 @@
+{
+  "name": "@cn/shared-kernel",
+  "version": "0.2.0",
+  "description": "Cloud-native — shared kernel: pure TS domain primitives + config contract. Zero framework dependencies.",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}

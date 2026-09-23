@@ -1,0 +1,17 @@
+{
+  "name": "@ms/demo",
+  "version": "0.2.0",
+  "description": "Microservices — demo orchestrator: forks user-service, order-service and api-gateway, then drives the full flow through the gateway.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx --env-file=../../.env src/main.ts",
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ms/api-gateway": "workspace:*",
+    "@ms/order-service": "workspace:*",
+    "@ms/user-service": "workspace:*"
+  }
+}

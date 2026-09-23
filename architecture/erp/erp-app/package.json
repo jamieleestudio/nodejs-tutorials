@@ -1,0 +1,23 @@
+{
+  "name": "@erp/app",
+  "version": "0.2.0",
+  "description": "ERP (COLA-style) — app layer: boot assembly only (imports modules, registers platform globals).",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx --env-file=../../.env src/main.ts",
+    "dev": "tsx watch --env-file=../../.env src/main.ts",
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@erp/module": "workspace:*",
+    "@erp/platform": "workspace:*",
+    "@nestjs/common": "^12.0.1",
+    "@nestjs/core": "^12.0.1",
+    "@nestjs/platform-express": "^12.0.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
+    "reflect-metadata": "^0.2.2"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@dist/task-core",
+  "version": "0.2.0",
+  "description": "Distributed architecture — Task business core shared by master and workers: domain + application + Prisma persistence.",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "prisma:generate": "dotenv -e ../../.env -- prisma generate",
+    "prisma:migrate": "dotenv -e ../../.env -- prisma migrate dev --name init"
+  },
+  "dependencies": {
+    "@dist/shared-kernel": "workspace:*",
+    "@nestjs/common": "^12.0.1",
+    "@prisma/client": "5.22.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "prisma": "^5.22.0",
+    "typescript": "^5.6.0"
+  }
+}

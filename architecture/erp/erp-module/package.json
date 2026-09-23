@@ -1,0 +1,31 @@
+{
+  "name": "@erp/module",
+  "version": "0.2.0",
+  "description": "ERP (COLA-style) — business module layer: User + Order modules built on @erp/platform, one shared database arch_erp.",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "prisma:generate": "dotenv -e ../../.env -- prisma generate",
+    "prisma:migrate": "dotenv -e ../../.env -- prisma migrate dev --name init"
+  },
+  "dependencies": {
+    "@erp/platform": "workspace:*",
+    "@erp/shared-kernel": "workspace:*",
+    "@nestjs/common": "^12.0.1",
+    "@nestjs/cqrs": "^12.0.0",
+    "@prisma/client": "5.22.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "prisma": "^5.22.0",
+    "typescript": "^5.6.0"
+  }
+}

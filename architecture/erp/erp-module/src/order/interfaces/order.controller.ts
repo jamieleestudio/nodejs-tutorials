@@ -1,0 +1,30 @@
+/** Order HTTP Controller */
+import { Controller, Post, Get, Body, Param, ValidationPipe, Inject } from "@nestjs/common";
+import { IsNumber, IsString, Min } from "class-validator";
+import { OrderService } from "../application/order.service.js";
+
+class CreateOrderRequestDto {
+  @IsString()
+  userId!: string;
+
+  @IsNumber()
+  @Min(0.01)
+  amount!: number;
+}
+
+@Controller("erp/orders")
+export class OrderController {
+  constructor(private readonly orderService: OrderService) {}
+
+  @Post()
+  async create(@Body(new ValidationPipe({ whitelist: true })) body: CreateOrderRequestDto) {
+    const order = await this.orderService.createOrder(body);
+    return { id: order.id, userId: order.userId, amount: order.amount, status: order.status };
+  }
+
+  @Get(":id")
+  async findOne(@Param("id") id: string) {
+    const order = await this.orderService.getOrder(id);
+    return { id: order.id, userId: order.userId, amount: order.amount, status: order.status };
+  }
+}

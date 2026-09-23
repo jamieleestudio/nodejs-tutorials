@@ -1,0 +1,23 @@
+{
+  "name": "@ms/api-gateway",
+  "version": "0.2.0",
+  "description": "Microservices — API gateway: single HTTP entry, routes /users → user-service, /orders → order-service.",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./main": "./src/main.ts"
+  },
+  "scripts": {
+    "start": "tsx --env-file=../../.env src/main.ts",
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@nestjs/common": "^12.0.1",
+    "@nestjs/core": "^12.0.1",
+    "@nestjs/platform-express": "^12.0.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  }
+}

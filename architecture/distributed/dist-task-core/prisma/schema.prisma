@@ -1,0 +1,22 @@
+// Prisma schema for @dist/task-core — Task domain
+// Run: pnpm --filter @dist/task-core prisma:migrate
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL_DIST")
+}
+
+model Task {
+  id        String   @id @default(uuid())
+  payload   String
+  result    String?
+  status    String   @default("PENDING")
+  workerId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -13,10 +13,6 @@
     "database",
     "auth",
     "testing",
-    "architecture/monolith",
-    "architecture/modular-monolith",
-    "architecture/distributed",
-    "architecture/microservice",
     "docker",
     "ai"
   ],

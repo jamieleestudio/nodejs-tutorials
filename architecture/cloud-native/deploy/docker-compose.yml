@@ -1,0 +1,52 @@
+# Cloud-Native 本地容器编排
+# 用法（在 cloud-native/ 目录下）：
+#   docker compose -f deploy/docker-compose.yml up -d --build
+#   docker compose -f deploy/docker-compose.yml ps
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: tutorial
+      POSTGRES_PASSWORD: tutorial
+    volumes:
+      - cn_pgdata:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tutorial"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  cn-user:
+    build:
+      context: ../..
+      dockerfile: cloud-native/deploy/Dockerfile
+    working_dir: /app/cloud-native/cn-user-service
+    command: ["node", "--import", "tsx", "src/main.ts"]
+    environment:
+      PORT: "4400"
+      DATABASE_URL_CN_USER: postgresql://tutorial:tutorial@postgres:5432/arch_cn_user?schema=public
+    ports:
+      - "4400:4400"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  cn-order:
+    build:
+      context: ../..
+      dockerfile: cloud-native/deploy/Dockerfile
+    working_dir: /app/cloud-native/cn-order-service
+    command: ["node", "--import", "tsx", "src/main.ts"]
+    environment:
+      PORT: "4500"
+      DATABASE_URL_CN_ORDER: postgresql://tutorial:tutorial@postgres:5432/arch_cn_order?schema=public
+      USER_SERVICE_URL: http://cn-user:4400
+    ports:
+      - "4500:4500"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  cn_pgdata:

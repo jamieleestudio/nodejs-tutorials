@@ -1,0 +1,17 @@
+{
+  "name": "@erp/architecture-test",
+  "version": "0.2.0",
+  "description": "ERP — architecture guard tests (node equivalent of java ArchUnit): enforces COLA dependency rules by scanning imports.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.6.0",
+    "vitest": "^3.0.0"
+  }
+}

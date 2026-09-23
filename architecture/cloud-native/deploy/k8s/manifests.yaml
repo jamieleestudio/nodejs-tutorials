@@ -1,0 +1,93 @@
+# Cloud-Native K8s 清单（教学简化版）
+# 用法：kubectl apply -f cloud-native/deploy/k8s/
+# 说明：数据库假定部署在 k8s 内（postgres:5432），生产环境应使用云数据库 + Secret 管理连接串。
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: architecture-cn
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cn-user
+  namespace: architecture-cn
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: cn-user }
+  template:
+    metadata:
+      labels: { app: cn-user }
+    spec:
+      containers:
+        - name: cn-user
+          image: nodejs-tutorials/cn:latest
+          imagePullPolicy: IfNotPresent
+          workingDir: /app/cloud-native/cn-user-service
+          command: ["node", "--import", "tsx", "src/main.ts"]
+          env:
+            - name: PORT
+              value: "4400"
+            - name: DATABASE_URL_CN_USER
+              value: postgresql://tutorial:tutorial@postgres:5432/arch_cn_user?schema=public
+          readinessProbe:
+            httpGet: { path: /healthz, port: 4400 }
+            initialDelaySeconds: 5
+          livenessProbe:
+            httpGet: { path: /healthz, port: 4400 }
+            initialDelaySeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cn-user
+  namespace: architecture-cn
+spec:
+  selector: { app: cn-user }
+  ports:
+    - port: 4400
+      targetPort: 4400
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cn-order
+  namespace: architecture-cn
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: cn-order }
+  template:
+    metadata:
+      labels: { app: cn-order }
+    spec:
+      containers:
+        - name: cn-order
+          image: nodejs-tutorials/cn:latest
+          imagePullPolicy: IfNotPresent
+          workingDir: /app/cloud-native/cn-order-service
+          command: ["node", "--import", "tsx", "src/main.ts"]
+          env:
+            - name: PORT
+              value: "4500"
+            - name: DATABASE_URL_CN_ORDER
+              value: postgresql://tutorial:tutorial@postgres:5432/arch_cn_order?schema=public
+            - name: USER_SERVICE_URL
+              value: http://cn-user.architecture-cn.svc.cluster.local:4400
+          readinessProbe:
+            httpGet: { path: /healthz, port: 4500 }
+            initialDelaySeconds: 5
+          livenessProbe:
+            httpGet: { path: /healthz, port: 4500 }
+            initialDelaySeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cn-order
+  namespace: architecture-cn
+spec:
+  selector: { app: cn-order }
+  ports:
+    - port: 4500
+      targetPort: 4500

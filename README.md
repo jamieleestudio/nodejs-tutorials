@@ -14,7 +14,7 @@ Each top-level folder is its own project with its own `package.json`, `tsconfig.
 - `database/`: database integration — SQLite/SQL, ORMs
 - `auth/`: authentication and authorization — JWT, bcrypt, sessions, OAuth
 - `testing/`: testing — Vitest, unit and integration tests
-- `architecture/`: architecture patterns — monolith, microservice, distributed
+- `architecture/`: architecture patterns — monolith, monolithic-multi-module, distributed, event-driven, microservices, cloud-native, ERP (COLA). Self-contained **pnpm + Turborepo** workspace, see [architecture/README.md](./architecture/README.md)
 - `docker/`: containerization — Dockerfile, docker-compose
 - `ai/`: AI integration — OpenAI SDK, [Mastra](./ai/mastra/README.md) (26 modules), [LangChain.js](./ai/langchainjs/README.md) (27 demos: agents, tools, workflows/LangGraph, memory, RAG, MCP, patterns), LangChain demos
 

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "prisma:generate": {
+      "inputs": ["$TURBO_DEFAULT$", "!src/generated/**"],
+      "outputs": ["src/generated/**"],
+      "env": [
+        "DATABASE_URL_MONOLITHIC",
+        "DATABASE_URL_MMM_USER",
+        "DATABASE_URL_MMM_ORDER",
+        "DATABASE_URL_DIST",
+        "DATABASE_URL_MS_USER",
+        "DATABASE_URL_MS_ORDER",
+        "DATABASE_URL_EDA_ORDER",
+        "DATABASE_URL_EDA_USER",
+        "DATABASE_URL_CN_USER",
+        "DATABASE_URL_CN_ORDER",
+        "DATABASE_URL_ERP"
+      ]
+    },
+    "build": {
+      "dependsOn": ["^build", "prisma:generate"],
+      "outputs": []
+    },
+    "typecheck": {
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "start": {
+      "dependsOn": ["^build", "prisma:generate"],
+      "cache": false,
+      "persistent": true
+    },
+    "dev": {
+      "dependsOn": ["^build", "prisma:generate"],
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

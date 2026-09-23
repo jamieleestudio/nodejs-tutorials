@@ -1,0 +1,21 @@
+{
+  "name": "@eda/event-bus",
+  "version": "0.2.0",
+  "description": "Event-driven — Redis pub/sub event bus (NestJS injectable), the only infrastructure shared by services.",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@eda/shared-kernel": "workspace:*",
+    "@nestjs/common": "^12.0.1",
+    "ioredis": "^5.4.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  }
+}

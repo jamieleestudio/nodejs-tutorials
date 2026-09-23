@@ -1,0 +1,16 @@
+{
+  "name": "@eda/demo",
+  "version": "0.2.0",
+  "description": "Event-driven — demo orchestrator: forks order-service + user-service, drives a POST /orders and shows the async event reaction.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx --env-file=../../.env src/main.ts",
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@eda/order-service": "workspace:*",
+    "@eda/user-service": "workspace:*"
+  }
+}
