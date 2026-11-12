@@ -1,6 +1,6 @@
 # Mastra 教程
 
-用 **Node.js 24 + TypeScript + Mastra 1.67** 演示 Mastra 的核心能力：
+用 **Node.js 24 + TypeScript + Mastra 1.82** 演示 Mastra 的核心能力：
 Agent、工具、工作流（Workflows）、记忆、RAG、MCP 与编排模式。
 
 > Mastra 是 TypeScript 优先的 AI 应用框架，构建在 Vercel AI SDK 之上。
@@ -9,12 +9,12 @@ Agent、工具、工作流（Workflows）、记忆、RAG、MCP 与编排模式�
 
 ## 运行方式
 
-通过 **pnpm workspace 聚合**（`pnpm-workspace.yaml` 覆盖全部 26 个模块；pnpm 的全局
-内容寻址仓库等价 Maven 的 `~/.m2`，26 个模块共享一份物理依赖，每模块 node_modules
+通过 **pnpm workspace 聚合**（`pnpm-workspace.yaml` 覆盖全部 28 个模块；pnpm 的全局
+内容寻址仓库等价 Maven 的 `~/.m2`，28 个模块共享一份物理依赖，每模块 node_modules
 只是符号链接）。npm 11 对嵌套 workspace 的 reify 有缺陷，故本组用 pnpm 管理。
 
 ```bash
-# 【等价 mvn package】一次安装全部 26 个模块（在 ai/mastra 下执行）
+# 【等价 mvn package】一次安装全部 28 个模块（在 ai/mastra 下执行）
 cd ai/mastra
 pnpm install
 
@@ -47,7 +47,7 @@ npx mastra dev
 | HITL | 工具级 `requireApproval` + workflow `suspend` | Graph `interruptBefore` | HITL Action | Permission/ASK |
 | 调试 | Studio（自带 UI） | curl / 日志 | curl / 日志 | curl / 日志 |
 
-## 分类与模块（26 模块 / 9 分类，全部 typecheck 通过，核心链路已运行验证）
+## 分类与模块（28 模块 / 9 分类，全部 typecheck 通过，核心链路已运行验证）
 
 ### ① [基础（mastra-basics）](mastra-basics/README.md) — 端口 8600-8603
 
@@ -66,13 +66,14 @@ npx mastra dev
 | [mastra-subagents](mastra-tools/mastra-subagents/README.md) | 8605 | 子 Agent 委派（agents 选项） |
 | [mastra-tool-approval](mastra-tools/mastra-tool-approval/README.md) | 8606 | 工具审批 HITL（requireApproval） |
 
-### ③ [记忆（mastra-memory）](mastra-memory/README.md) — 端口 8607-8609
+### ③ [记忆（mastra-memory）](mastra-memory/README.md) — 端口 8607-8609, 8627
 
 | 模块 | 端口 | 主题 |
 |---|---|---|
 | [mastra-memory-working](mastra-memory/mastra-memory-working/README.md) | 8607 | 工作记忆（resource 级用户档案） |
 | [mastra-memory-recall](mastra-memory/mastra-memory-recall/README.md) | 8608 | 语义召回（向量检索历史） |
 | [mastra-memory-persistence](mastra-memory/mastra-memory-persistence/README.md) | 8609 | 记忆持久化（LibSQLStore 文件落盘） |
+| [mastra-knowledge](mastra-memory/mastra-knowledge/README.md) | 8627 | Knowledge v2 页式知识库（scope 访问控制，1.82 新特性） |
 
 ### ④ [RAG（mastra-rag）](mastra-rag/README.md) — 端口 8610-8612
 
@@ -92,12 +93,13 @@ npx mastra dev
 | [mastra-workflow-parallel](mastra-workflows/mastra-workflow-parallel/README.md) | 8616 | 并行执行（parallel + 聚合） |
 | [mastra-workflow-error](mastra-workflows/mastra-workflow-error/README.md) | 8617 | 错误处理（降级 + fallback 分支） |
 
-### ⑥ [MCP（mastra-mcp）](mastra-mcp/README.md) — 端口 8618-8619
+### ⑥ [MCP（mastra-mcp）](mastra-mcp/README.md) — 端口 8618-8619, 8626
 
 | 模块 | 端口 | 主题 |
 |---|---|---|
 | [mastra-mcp-server](mastra-mcp/mastra-mcp-server/README.md) | 8618 | MCP 服务端（MCPServer 暴露工具） |
 | [mastra-mcp-client](mastra-mcp/mastra-mcp-client/README.md) | 8619 | MCP 客户端（MCPClient 接入） |
+| [mastra-mcp-tasks](mastra-mcp/mastra-mcp-tasks/README.md) | 8626 | MCP Tasks 长时任务（SEP-2663，1.81 新特性） |
 
 ### ⑦ 评估（mastra-evals） — 端口 8620
 
@@ -134,5 +136,5 @@ npx mastra dev
 
 - Node.js >= 22.13（本机 24）
 - TypeScript 5.6 + ESM + tsx
-- Mastra：@mastra/core 1.67、mastra CLI 1.30、@mastra/memory 1.30、@mastra/libsql 1.23、@mastra/rag 2.6、@mastra/mcp 1.18、@mastra/evals 1.10
+- Mastra：@mastra/core 1.82（Agent Scopes / MCP Tasks / Knowledge v2）、mastra CLI 1.38、@mastra/memory 1.41、@mastra/libsql 1.29、@mastra/rag 2.7、@mastra/mcp 2.8、@mastra/evals 1.10
 - DeepSeek（model router `deepseek/*`）；嵌入走 DashScope 兼容模式（可选）

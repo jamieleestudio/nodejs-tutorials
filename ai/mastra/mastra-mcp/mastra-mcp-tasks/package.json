@@ -1,0 +1,28 @@
+{
+  "name": "nodejs-tutorials-ai-mastra-mcp-tasks",
+  "version": "0.1.0",
+  "description": "Mastra tutorial: MCP Tasks（SEP-2663）长时任务：慢工具以任务方式执行与轮询",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "mastra dev",
+    "demo": "tsx src/demo.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mastra/core": "^1.82.0",
+    "@mastra/mcp": "^2.8.0",
+    "ai": "^7.0.170",
+    "@ai-sdk/openai-compatible": "^3.0.53",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "mastra": "^1.38.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "@types/node": "^24.0.0"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  }
+}
