@@ -32,7 +32,8 @@ async function handle(lane: string, request: string): Promise<string> {
   const persona = personas[lane] ?? personas.general;
   const expert = createAgent({
     model,
-    prompt: `${persona}。回答简洁。`,
+    // langchain 1.6：prompt 参数更名为 systemPrompt
+    systemPrompt: `${persona}。回答简洁。`,
   });
   const result = await expert.invoke({
     messages: [{ role: 'user', content: request }],

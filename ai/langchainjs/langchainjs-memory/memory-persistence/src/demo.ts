@@ -1,5 +1,6 @@
 import { ChatOpenAI } from '@langchain/openai';
-import { BaseListChatMessageHistory, BaseMessage } from '@langchain/core/chat_history';
+import { BaseListChatMessageHistory } from '@langchain/core/chat_history';
+import { BaseMessage } from '@langchain/core/messages';
 import { ChatPromptTemplate, MessagesPlaceholder } from '@langchain/core/prompts';
 import { RunnableWithMessageHistory } from '@langchain/core/runnables';
 import fs from 'node:fs';
@@ -12,6 +13,9 @@ import { createChatModel } from 'langchainjs-shared';
 const FILE = 'memory-history.json';
 
 class FileChatMessageHistory extends BaseListChatMessageHistory {
+  // @langchain/core 1.4：lc_namespace 变为抽象成员，子类必须声明
+  lc_namespace = ['tutorials', 'memory'];
+
   private messages: BaseMessage[] = [];
 
   constructor(readonly sessionId: string) {

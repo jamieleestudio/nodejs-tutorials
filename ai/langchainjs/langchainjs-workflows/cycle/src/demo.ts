@@ -32,7 +32,7 @@ async function review(state: typeof GraphState.State) {
   return { feedback: r.content as string };
 }
 
-function shouldContinue(state: typeof GraphState.State): 'generate' | END {
+function shouldContinue(state: typeof GraphState.State): 'generate' | typeof END {
   if (state.round >= maxRounds) return END;
   if (String(state.feedback).includes('PASS')) return END;
   return 'generate';

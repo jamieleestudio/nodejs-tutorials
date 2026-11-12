@@ -1,5 +1,6 @@
-import { createAgent, tool } from 'langchain';
+import { createAgent, tool, createMiddleware } from 'langchain';
 import { ChatOpenAI } from '@langchain/openai';
+import { ToolMessage } from '@langchain/core/messages';
 import { z } from 'zod';
 import { createChatModel } from 'langchainjs-shared';
 
@@ -20,20 +21,24 @@ function isAllowed(role: string, toolName: string): boolean {
   return patterns.some((p) => p === '*' || toolName.startsWith(p.replace(/\*/g, '')));
 }
 
-const rbacMiddleware = {
+// langchain 1.6：wrapToolCall 签名为 (request, handler)（1.5 是 handler 在前），
+// 返回值收紧为 ToolMessage | Command——拒绝时构造一条 ToolMessage 消息回给模型；
+// 用 createMiddleware 包一层以获得钩子参数的类型推断
+const rbacMiddleware = createMiddleware({
   name: 'rbac-middleware',
-  wrapToolCall: async (handler, request) => {
+  wrapToolCall: async (request, handler) => {
     const role = (request.runtime?.configurable?.role as string) ?? 'guest';
     const toolName = request.toolCall?.name ?? request.tool?.name ?? '';
     if (!isAllowed(role, toolName)) {
       console.log(`- [RBAC 拦截] 角色 ${role} 无权调用 ${toolName}`);
-      return {
-        result: `权限拒绝：角色 ${role} 无权调用工具 ${toolName}`,
-      };
+      return new ToolMessage({
+        content: `权限拒绝：角色 ${role} 无权调用工具 ${toolName}`,
+        tool_call_id: request.toolCall?.id ?? '',
+      });
     }
     return handler(request);
   },
-};
+});
 
 const adminOnlyTool = tool(
   (input) => `已删除 ${input.target}`,

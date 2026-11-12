@@ -9,10 +9,10 @@
                     "typecheck":  "tsc --noEmit"
                 },
     "dependencies":  {
-                         "langchain":  "^1.5.11",
-                         "@langchain/core":  "^1.2.12",
-                         "@langchain/openai":  "^1.5.13",
-                         "zod":  "^4.6.5",
+                         "langchain":  "^1.6.5",
+                         "@langchain/core":  "^1.4.0",
+                         "@langchain/openai":  "^1.8.4",
+                         "zod":  "^4.6.7",
                          "langchainjs-shared":  "workspace:*"
                      },
     "devDependencies":  {

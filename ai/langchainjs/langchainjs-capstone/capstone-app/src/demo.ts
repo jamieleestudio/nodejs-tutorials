@@ -80,7 +80,8 @@ const agent = createAgent({
     configuration: { baseURL: 'https://api.deepseek.com' },
   }),
   tools: [orderTool],
-  prompt:
+  // langchain 1.6：createAgent 的 prompt 参数更名为 systemPrompt（string | SystemMessage）
+  systemPrompt:
     '你是智能客服。会员/发货/退款政策问题先参考以下 FAQ 知识库：\n' +
     FAQS.join('\n') +
     '\n查订单用工具。回答友好简洁。',

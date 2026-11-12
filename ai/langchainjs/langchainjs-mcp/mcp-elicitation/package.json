@@ -1,0 +1,25 @@
+{
+  "name": "langchainjs-mcp-elicitation",
+  "version": "0.1.0",
+  "description": "LangChain.js mcp: mcp-elicitation（mcp-adapters 2.0 elicitation 服务端向客户端要输入）",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "demo": "tsx src/demo.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "langchain": "^1.6.5",
+    "@langchain/core": "^1.4.0",
+    "@langchain/openai": "^1.8.4",
+    "@langchain/mcp-adapters": "^2.0.3",
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7",
+    "langchainjs-shared": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "@types/node": "^24.0.0"
+  }
+}

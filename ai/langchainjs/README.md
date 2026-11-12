@@ -1,6 +1,6 @@
 # LangChain.js 教程
 
-用 **Node.js 24 + TypeScript + LangChain 1.5 / LangGraph 1.4** 演示 LangChain.js 的核心能力：
+用 **Node.js 24 + TypeScript + LangChain 1.6 / LangGraph 1.7** 演示 LangChain.js 的核心能力：
 ChatModel、AiServices 式声明（createAgent）、LCEL 链、工具、记忆、RAG（本地 transformers.js 嵌入）、
 Guardrails 中间件、LangGraph 工作流（StateGraph / 分支 / 循环 / 并行 / 人工介入 / 持久化）、MCP 与编排模式。
 
@@ -39,7 +39,7 @@ pnpm --filter langchainjs-chat-models demo
 | 记忆 | InMemoryChatMessageHistory + thread | ChatMemory + memoryId |
 | MCP | `@langchain/mcp-adapters` | `langchain4j-mcp` |
 
-## 分类与模块（31 个 demo / 10 分类 + shared，全部编译通过，核心链路已运行验证）
+## 分类与模块（33 个 demo / 10 分类 + shared，全部编译通过，核心链路已运行验证）
 
 ### ① [basics](langchainjs-basics/README.md) — 5 个 demo
 
@@ -51,13 +51,14 @@ pnpm --filter langchainjs-chat-models demo
 | [chains](langchainjs-basics/chains/README.md) | LCEL 链（pipe / RunnableLambda / Passthrough） |
 | [streaming](langchainjs-basics/streaming/README.md) | 流式输出 |
 
-### ② [agents](langchainjs-agents/README.md) — 3 个 demo
+### ② [agents](langchainjs-agents/README.md) — 4 个 demo
 
 | 模块 | 主题 |
 |---|---|
 | [agent-basics](langchainjs-agents/agent-basics/README.md) | createAgent + tools |
 | [agent-middleware](langchainjs-agents/agent-middleware/README.md) | 中间件（模型调用前后拦截） |
 | [agent-structured-output](langchainjs-agents/agent-structured-output/README.md) | responseFormat 结构化 |
+| [agent-decision-models](langchainjs-agents/agent-decision-models/README.md) | 决策模型：modelRouter / autoMode / modelRefusal 中间件（1.6 新特性） |
 
 ### ③ [memory](langchainjs-memory/README.md) — 2 个 demo
 
@@ -83,15 +84,16 @@ pnpm --filter langchainjs-chat-models demo
 | [branching](langchainjs-workflows/branching/README.md) | addConditionalEdges 分支 |
 | [cycle](langchainjs-workflows/cycle/README.md) | 循环 + 轮次上限 |
 | [parallel-send](langchainjs-workflows/parallel-send/README.md) | Send API map-reduce |
-| [interrupt](langchainjs-workflows/interrupt/README.md) | interrupt + Command.resume（HITL） |
+| [interrupt](langchainjs-workflows/interrupt/README.md) | interrupt + Command.resume（HITL，1.x 类型化 interrupt / 同节点多 interrupt） |
 | [persistence](langchainjs-workflows/persistence/README.md) | MemorySaver + thread_id |
 
-### ⑥ [MCP](langchainjs-mcp/README.md) — 2 个 demo
+### ⑥ [MCP](langchainjs-mcp/README.md) — 3 个 demo
 
 | 模块 | 主题 |
 |---|---|
-| [mcp-stdio](langchainjs-mcp/mcp-stdio/README.md) | MCP stdio 客户端 |
+| [mcp-stdio](langchainjs-mcp/mcp-stdio/README.md) | MCP stdio 客户端（MCPAdapter 2.0） |
 | [mcp-agent](langchainjs-mcp/mcp-agent/README.md) | MCP 工具注入 Agent |
+| [mcp-elicitation](langchainjs-mcp/mcp-elicitation/README.md) | MCP elicitation：服务端向客户端要输入（mcp-adapters 2.0 新特性） |
 
 ### ⑦ [patterns](langchainjs-patterns/README.md) — 3 个 demo
 
@@ -126,6 +128,6 @@ pnpm --filter langchainjs-chat-models demo
 ## 技术栈
 
 - Node.js 24 + TypeScript 5.6 + ESM + tsx
-- langchain 1.5.11（createAgent 新架构）、@langchain/langgraph 1.4.16、@langchain/mcp-adapters 1.1.4
+- langchain 1.6.5（createAgent 新架构 + 决策模型中间件）、@langchain/langgraph 1.7.3、@langchain/mcp-adapters 2.0.3（MCPAdapter）
 - @huggingface/transformers 4.3（本地嵌入）
 - DeepSeek API（OpenAI 兼容）
