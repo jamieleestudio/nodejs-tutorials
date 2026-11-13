@@ -1,0 +1,25 @@
+{
+  "name": "vercelai-patterns-parallel-loop",
+  "version": "0.1.0",
+  "description": "Vercel AI SDK 7: 并行与循环模式——Promise.all 并行多任务 + 生成-评审循环",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "demo": "tsx src/demo.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "ai": "^7.0.170",
+    "@ai-sdk/deepseek": "^3.0.84",
+    "zod": "^4.6.7",
+    "vercelai-shared": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "@types/node": "^24.0.0"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  }
+}

@@ -1,0 +1,11 @@
+packages:
+  - shared
+  - 'vercelai-basics/*'
+  - 'vercelai-agents/*'
+  - 'vercelai-streaming/*'
+  - 'vercelai-rag/*'
+  - 'vercelai-middleware/*'
+  - 'vercelai-mcp/*'
+  - 'vercelai-ui/*'
+  - 'vercelai-patterns/*'
+  - 'vercelai-capstone/*'

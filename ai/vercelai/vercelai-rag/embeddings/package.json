@@ -1,0 +1,23 @@
+{
+  "name": "vercelai-rag-embeddings",
+  "version": "0.1.0",
+  "description": "Vercel AI SDK 7: 嵌入——embed/embedMany + 本地 BGE EmbeddingModel + cosineSimilarity",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "demo": "tsx src/demo.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "ai": "^7.0.170",
+    "vercelai-shared": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "@types/node": "^24.0.0"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  }
+}
