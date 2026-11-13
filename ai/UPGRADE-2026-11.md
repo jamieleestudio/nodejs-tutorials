@@ -1,395 +1,100 @@
-# Mastra 教程
+# ai/ 2026-11 升级日志
 
-用 **Node.js 24 + TypeScript + Mastra 1.82** 演示 Mastra 的核心能力： Agent、工具、工作流（Workflows）、记忆、RAG、MCP 与编排模式。
+2026-11 批次的升级与新建记录，覆盖根 `ai/`、`langchainjs`、`mastra`、`vercelai` 四个单元。全部通过 `pnpm -r --no-bail typecheck`，核心链路均实测运行。四组现已统一在 **zod ^4.6.7** 上。
 
-> Mastra 是 TypeScript 优先的 AI 应用框架，构建在 Vercel AI SDK 之上。 model router 原生支持 DeepSeek：Agent 的 `model` 写成 `'deepseek/deepseek-chat'` 字符串 + `DEEPSEEK_API_KEY` 环境变量即可，无需手写 base-url。
+| 单元 | 动作 | commit |
+|---|---|---|
+| 根 ai/ | openai ^4.67 → **^7.55**、zod ^3.23 → **^4.6.7**，新增 Responses API demo | e433bc3 |
+| ai/langchainjs | **LangChain 1.6 栈**升级 + 破坏性迁移 + 2 新模块 | b65e8ab |
+| ai/mastra | **Mastra 1.82 栈**升级 + MCP Tasks / Knowledge v2 两新模块 | 277ade1 |
+| ai/vercelai | **新建组**：Vercel AI SDK 7（9 分类 · 18 模块 + shared） | 本次 |
 
-## 运行方式
+## ① 根 ai/ —— openai 7.55
 
-通过 **pnpm workspace 聚合**（`pnpm-workspace.yaml` 覆盖全部 28 个模块；pnpm 的全局 内容寻址仓库等价 Maven 的 `~/.m2`，28 个模块共享一份物理依赖，每模块 node_modules 只是符号链接）。npm 11 对嵌套 workspace 的 reify 有缺陷，故本组用 pnpm 管理。
+- `openai` ^4.67.0 → **^7.55.0**，`zod` ^3.23.0 → **^4.6.7**
+- 既有 chat.completions demo 不受影响（新版兼容）
+- 新增 `src/responses-demo.ts`：`client.responses.create` 走 Responses API（OpenAI 新一代接口），注册进 `src/main.ts`
 
-```bash
-# 【等价 mvn package】一次安装全部 28 个模块（在 ai/mastra 下执行）
-cd ai/mastra
-pnpm install
+## ② ai/langchainjs —— LangChain 1.6 栈
 
-# 【等价 mvn -pl :module】单模块运行
-pnpm --filter nodejs-tutorials-ai-mastra-chat demo      # 程序化演示
-pnpm --filter nodejs-tutorials-ai-mastra-chat dev       # dev server + Studio（端口 8600）
+### 版本
 
-# 也可以进入模块目录直接执行（pnpm 自动定位 workspace）
-cd ai/mastra/mastra-basics/mastra-chat
-cp .env.example .env        # 填入 DEEPSEEK_API_KEY
-npx mastra dev
-```
+`langchain ^1.6.5` · `@langchain/core ^1.4.0` · `@langchain/openai ^1.8.4` · `@langchain/langgraph ^1.7.3` · `@langchain/mcp-adapters ^2.0.3` · `zod ^4.6.7`
 
-### Maven ↔ npm 对照
+### Breaking changes 迁移（实证）
 
-你想做什么
+| 1.0 及以前 | 1.6 正统 |
+|---|---|
+| `prompt` | `systemPrompt` |
+| 自定义工具拦截 | `wrapToolCall(request, handler)`，返回 `ToolMessage \| Command` |
+| `MultiServerMCPClient` | `MCPAdapter` + `listTools()`（扁平数组）/ `listToolsets()`（按 server 分组） |
+| `BaseMessage` 从 langchain 包引入 | 从 `@langchain/core/messages` 引入 |
+| `BaseListChatMessageHistory` 子类 | 需显式声明 `lc_namespace` |
+| LangGraph 条件边返回 | `'x' \| typeof END` |
+| agent 工具注入时机 | 构造时注入（`tools` 选项） |
 
-Maven（java-tutorials）
+### 增强 / 新增
 
-npm（本仓库）
+- interrupt demo：typed `responseSchema` + 单节点内两个顺序 interrupt
+- 新模块 **agent-decision-models**：Decisions（modelRouter / autoMode / modelRefusal，DeepSeek BaseDecisionModel）
+- 新模块 **mcp-elicitation**：mode 'legacy' + onElicitation
+- 修复 context-langgraph 缺失的 `@langchain/langgraph` 依赖声明（此前被 hoist 侥幸可用）
 
-解析全仓依赖
+## ③ ai/mastra —— Mastra 1.82 栈
 
-`mvn package`
+### 版本
 
-`npm install`（根目录）
+`@mastra/core ^1.82.0`（Agent Scopes 1.78 / MCP Tasks 1.81 / Knowledge v2 1.82）· `@mastra/mcp ^2.8.0` · `@mastra/memory ^1.41.0` · `@mastra/libsql ^1.29.0` · `@mastra/rag ^2.7.2` · `@mastra/evals ^1.10.11` · mastra CLI ^1.38.0 · `ai ^7.0.170` · `zod ^4.6.7`
 
-全量编译
+### 新增模块
 
-`mvn compile`
+| 模块 | 端口 | 主题 |
+|---|---|---|
+| mastra-mcp-tasks | 8626 | MCP Tasks 长时工具（SEP-2663）：server `tasks.tools: 'always'`，client 连接 `tasks: true` + `tasksClient.tasks.get()` |
+| mastra-knowledge | 8627 | Knowledge v2 页式知识库：scope 访问控制、host `upsertPage`、agent `knowledge` + `scopes: ['org:acme']` |
 
-`npm run typecheck --workspaces --if-present`
+（28 模块 / 9 分类全景见 [ai/mastra/README.md](mastra/README.md)。）
 
-单模块运行
+## ④ ai/vercelai —— Vercel AI SDK 7（新建组）
 
-`mvn -pl :spring-ai-chat spring-boot:run`
+TS 生态的「模型层底座」：`generateText` / `streamText` / 工具循环 / 结构化输出 / 流式 UI 协议。9 分类 · 18 模块 + shared，全部新建；与 langchainjs（全家桶）、mastra（上层框架）构成三层定位对照。
 
-`npm run dev -w nodejs-tutorials-ai-mastra-chat`
+### 版本
 
-新增叶子模块
+`ai ^7.0.170` · `@ai-sdk/deepseek ^3.0.84` · `@ai-sdk/mcp ^2.0.97` · `@ai-sdk/provider ^4.0.37` · `zod ^4.6.7` · hono ^4.13 / @hono/node-server ^2.1（ui 与 capstone 的服务端）
 
-建目录 + pom，挂进 `<modules>`
+### v7 API 变化（本组实证）
 
-建目录 + package.json，分类 glob 自动命中
+| v6 及以前 | v7 正统 |
+|---|---|
+| `system` | `instructions`（旧名 deprecated） |
+| `generateObject` / `streamObject` | `generateText`/`streamText` + `output: Output.object(...)`，结果取 **`result.output`**；部分对象流改名 **`partialOutputStream`** |
+| `fullStream` | **`stream`** |
+| `result.toUIMessageStreamResponse()` 方法 | 独立函数 `toUIMessageStream({ stream: result.stream })` + `createUIMessageStreamResponse({ stream })` |
+| `convertToModelMessages` 同步 | **异步**（返回 `Promise<ModelMessage[]>`） |
+| `experimental_createMCPClient`（主包） | 独立包 **`@ai-sdk/mcp`**；transport 支持 `{ type: 'http', url }` 配置对象或 `@ai-sdk/mcp/mcp-stdio` 的 `StdioMCPTransport` |
+| `Experimental_Agent` | 定名 **ToolLoopAgent**；`repairToolCall` 去 experimental_ 前缀转正 |
+| `.stream()` 直接返回流 | 返回 **Promise**，await 后是 StreamTextResult（交给 toUIMessageStream 要再取 `.stream`） |
+| 中间件必填 specificationVersion | 免填；provider 级 V4 结果的 `finishReason` 是对象（取 `.unified`） |
 
-## 与 Java 侧三个 AI 组的定位差异
+协议细节：UIMessageChunk（SSE，`data: [DONE]` 收尾）的 `text-delta` 帧字段是 **`delta`**（stream 事件的 TextStreamPart 里是 `text`）；工具循环全程可见 `tool-input-start/delta/available` 与 `tool-output-available` 帧。
 
-维度
+### 模块全景
 
-Mastra
+| 分类 | 模块 |
+|---|---|
+| basics | generate / structured-output / providers |
+| agents | tool-loop / agent-class / advanced-tools（dynamicTool / activeTools / prepareStep / repairToolCall） |
+| streaming | primitives / transform（smoothStream + partialOutputStream） |
+| rag | embeddings（本地 BGE，零 key）/ pipeline |
+| middleware | basics / guardrails（PII 双向脱敏 + 思维链分离） |
+| mcp | stdio（server-everything）/ http（跨组直连 mastra 8618 MCP server） |
+| ui | chat-server（8628，useChat 协议端点 + 纯 fetch SSE 页） |
+| patterns | routing / parallel-loop |
+| capstone | support（8629，ToolLoopAgent + FAQ RAG 工具 + 订单工具） |
 
-Spring AI / SAA
+### 验证
 
-Embabel
-
-AgentScope
-
-语言生态
-
-TypeScript / Node.js
-
-Java
-
-Java
-
-Java
-
-编排
-
-Workflow（步骤/分支/挂起恢复）
-
-SAA: Graph 图编排
-
-GOAP 规划器
-
-ReAct + Middleware
-
-记忆
-
-working memory + semantic recall
-
-ChatMemory / checkpoint
-
-Process 状态
-
-AgentStateStore
-
-HITL
-
-工具级 `requireApproval` + workflow `suspend`
-
-Graph `interruptBefore`
-
-HITL Action
-
-Permission/ASK
-
-调试
-
-Studio（自带 UI）
-
-curl / 日志
-
-curl / 日志
-
-curl / 日志
-
-## 分类与模块（28 模块 / 9 分类，全部 typecheck 通过，核心链路已运行验证）
-
-### ① [基础（mastra-basics）](mastra-basics/README.md) — 端口 8600-8603
-
-模块
-
-端口
-
-主题
-
-[mastra-chat](mastra-basics/mastra-chat/README.md)
-
-8600
-
-最小聊天 Agent（generate）
-
-[mastra-streaming](mastra-basics/mastra-streaming/README.md)
-
-8601
-
-流式输出（textStream / fullStream）
-
-[mastra-structured-output](mastra-basics/mastra-structured-output/README.md)
-
-8602
-
-结构化输出（structuredOutput + Zod）
-
-[mastra-dynamic-model](mastra-basics/mastra-dynamic-model/README.md)
-
-8603
-
-动态模型（RequestContext 切换 chat/reasoner）
-
-### ② [工具（mastra-tools）](mastra-tools/README.md) — 端口 8604-8606
-
-模块
-
-端口
-
-主题
-
-[mastra-tools-basics](mastra-tools/mastra-tools-basics/README.md)
-
-8604
-
-createTool + Zod schema
-
-[mastra-subagents](mastra-tools/mastra-subagents/README.md)
-
-8605
-
-子 Agent 委派（agents 选项）
-
-[mastra-tool-approval](mastra-tools/mastra-tool-approval/README.md)
-
-8606
-
-工具审批 HITL（requireApproval）
-
-### ③ [记忆（mastra-memory）](mastra-memory/README.md) — 端口 8607-8609, 8627
-
-模块
-
-端口
-
-主题
-
-[mastra-memory-working](mastra-memory/mastra-memory-working/README.md)
-
-8607
-
-工作记忆（resource 级用户档案）
-
-[mastra-memory-recall](mastra-memory/mastra-memory-recall/README.md)
-
-8608
-
-语义召回（向量检索历史）
-
-[mastra-memory-persistence](mastra-memory/mastra-memory-persistence/README.md)
-
-8609
-
-记忆持久化（LibSQLStore 文件落盘）
-
-[mastra-knowledge](mastra-memory/mastra-knowledge/README.md)
-
-8627
-
-Knowledge v2 页式知识库（scope 访问控制，1.82 新特性）
-
-### ④ [RAG（mastra-rag）](mastra-rag/README.md) — 端口 8610-8612
-
-模块
-
-端口
-
-主题
-
-[mastra-rag-chunking](mastra-rag/mastra-rag-chunking/README.md)
-
-8610
-
-文档分块（MDocument 策略）
-
-[mastra-rag-vector-store](mastra-rag/mastra-rag-vector-store/README.md)
-
-8611
-
-向量存储（LibSQLVector）
-
-[mastra-rag-pipeline](mastra-rag/mastra-rag-pipeline/README.md)
-
-8612
-
-RAG 管道（createVectorQueryTool）
-
-### ⑤ [工作流 ★（mastra-workflows）](mastra-workflows/README.md) — 端口 8613-8617
-
-模块
-
-端口
-
-主题
-
-[mastra-workflow-basics](mastra-workflows/mastra-workflow-basics/README.md)
-
-8613
-
-步骤链式编排（createWorkflow + createStep）
-
-[mastra-workflow-branching](mastra-workflows/mastra-workflow-branching/README.md)
-
-8614
-
-分支路由（branch）
-
-[mastra-workflow-suspend](mastra-workflows/mastra-workflow-suspend/README.md)
-
-8615
-
-挂起恢复（suspend + resume）
-
-[mastra-workflow-parallel](mastra-workflows/mastra-workflow-parallel/README.md)
-
-8616
-
-并行执行（parallel + 聚合）
-
-[mastra-workflow-error](mastra-workflows/mastra-workflow-error/README.md)
-
-8617
-
-错误处理（降级 + fallback 分支）
-
-### ⑥ [MCP（mastra-mcp）](mastra-mcp/README.md) — 端口 8618-8619, 8626
-
-模块
-
-端口
-
-主题
-
-[mastra-mcp-server](mastra-mcp/mastra-mcp-server/README.md)
-
-8618
-
-MCP 服务端（MCPServer 暴露工具）
-
-[mastra-mcp-client](mastra-mcp/mastra-mcp-client/README.md)
-
-8619
-
-MCP 客户端（MCPClient 接入）
-
-[mastra-mcp-tasks](mastra-mcp/mastra-mcp-tasks/README.md)
-
-8626
-
-MCP Tasks 长时任务（SEP-2663，1.81 新特性）
-
-### ⑦ 评估（mastra-evals） — 端口 8620
-
-模块
-
-端口
-
-主题
-
-[mastra-evals](mastra-evals/mastra-evals/README.md)
-
-8620
-
-Scorer 评估（模型评分 + 规则断言）
-
-### ⑧ [编排模式 ★（mastra-patterns）](mastra-patterns/README.md) — 端口 8621-8624
-
-与其他组 patterns **1:1 对照**，用 Workflow 实现路由 / 并行 / 编排者-工人 / 主管：
-
-模块
-
-端口
-
-模式
-
-[mastra-pattern-routing](mastra-patterns/mastra-pattern-routing/README.md)
-
-8621
-
-路由分类 → 分发专家
-
-[mastra-pattern-parallel](mastra-patterns/mastra-pattern-parallel/README.md)
-
-8622
-
-并行评审 → 汇总
-
-[mastra-pattern-orchestrator](mastra-patterns/mastra-pattern-orchestrator/README.md)
-
-8623
-
-编排者-工人（拆解 → 并行 → 汇总）
-
-[mastra-pattern-supervisor](mastra-patterns/mastra-pattern-supervisor/README.md)
-
-8624
-
-主管模式（subagents 委派）
-
-### ⑨ 综合（mastra-capstone） — 端口 8625
-
-模块
-
-端口
-
-主题
-
-[mastra-capstone-app](mastra-capstone/mastra-capstone-app/README.md)
-
-8625
-
-智能客服（RAG + 记忆 + 工具审批）
-
-## 环境变量
-
-变量
-
-用途
-
-必需性
-
-`DEEPSEEK_API_KEY`
-
-全部模块的聊天/推理模型（deepseek/*）
-
-必需
-
-`DASHSCOPE_API_KEY`
-
-嵌入模型（memory-recall / rag / capstone）
-
-对应模块必需
-
-`EMBEDDING_BASE_URL` / `EMBEDDING_MODEL`
-
-换任意 OpenAI 兼容嵌入服务
-
-可选
-
-## 技术栈
-
--   Node.js >= 22.13（本机 24）
--   TypeScript 5.6 + ESM + tsx
--   Mastra：@mastra/core 1.82（Agent Scopes / MCP Tasks / Knowledge v2）、mastra CLI 1.38、@mastra/memory 1.41、@mastra/libsql 1.29、@mastra/rag 2.7、@mastra/mcp 2.8、@mastra/evals 1.10
--   DeepSeek（model router `deepseek/*`）；嵌入走 DashScope 兼容模式（可选）
+- `pnpm -r --no-bail typecheck`：19 个 workspace 项目全绿
+- 14 个 demo 实测跑通（mcp/http 需先启动 mastra 组 8618 MCP server，前置命令见其 README）
+- SSE 协议实测：8628 共 9 帧；8629 共 146 帧（lookupOrder + searchFaq 双工具各一轮、2 个 step、`data: [DONE]` 收尾）
